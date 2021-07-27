@@ -1,6 +1,13 @@
+#
+# A class that can be used to monitor the balances of several crypto addresses across multiple blockchains.
+#
+# Author: redd
+#
+
 import json
 from BitcoinApi import BitcoinApi
 from CardanoApi import CardanoApi
+from Invoice import Invoice
 
 class AddressMonitor:
 
@@ -23,12 +30,6 @@ class AddressMonitor:
             else:
                 raise Exception("Unsupported Network")
 
-        self.payment_thresholds = {
-            'bitcoin-mainnet' : 2000,
-            'cardano_mainnet' : 10000,
-            'cardano_testnet' : 10000
-        }
-
 
     def _saveAddrInfo(self):
         d = []
@@ -40,13 +41,19 @@ class AddressMonitor:
             f.write(j)
 
 
-    def checkForPayment(self):
+    def checkForPayment(self, invoice=None):
 
         success = False
 
-        for api in self.addr_apis:
-            complete, chg = api.checkForPayment()
-            print(f"{complete} {chg} ({api.network} {api.addr})")
+        # get prices denominated in crypto
+        if invoice == None:
+            invoice = Invoice() # use smallest possible values for threshold
+        price = invoice.getInvoice() # dictionary of the prices
+
+        for api in self.addr_apis: # check each network for payment
+            print(f"Checking {api.network} for payment...")
+            complete, chg = api.checkForPayment(price[api.network])
+            print(f"  {'Success!' if complete else 'Failure'} {chg}/{price[api.network]} ({api.addr})")
             if complete:
                 success = True
                 break
@@ -56,7 +63,10 @@ class AddressMonitor:
 
 
 if __name__ == '__main__':
+
+    invoice = Invoice(0.50)
+
     fname = 'monitor.json'
     am = AddressMonitor(fname)
-    am.checkForPayment()
+    am.checkForPayment(invoice)
 

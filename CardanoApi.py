@@ -1,4 +1,9 @@
-import json
+#
+# A class that handles the API for checking the Cardano blockchain.
+#
+# Author: redd
+#
+
 import requests
 import os 
 from AddrApi import AddrApi

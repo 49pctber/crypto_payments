@@ -1,3 +1,9 @@
+#
+# A class that handles the API for checking the Bitcoin blockchain.
+#
+# Author: redd
+#
+
 from AddrApi import AddrApi
 import requests
 import json

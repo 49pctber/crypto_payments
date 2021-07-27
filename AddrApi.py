@@ -1,3 +1,11 @@
+#
+# A base class used to check for a payment.
+#
+# Must inherit self._checkBalance(). This varies for each blockchain, so look at BitcoinApi or CardanoApi for how to implement functioning classes.
+#
+# Author: redd
+#
+
 class AddrApi:
     def __init__(self, d):
         self.addr = d['addr'] # target address
