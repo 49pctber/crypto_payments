@@ -27,6 +27,6 @@ I use [blockfrost.io](https://blockfrost.io/) for the Cardano API. To properly u
 
 ## Address Management
 
-To monitor a specific addresses, configure `monitor.json` to include the address, network, and previous balance of that address. For a payment to be considered successful, that balance must increase by `self.payment_thresholds` as defined in `AddressMonitor`. This is a feature I plan on improving to allow for variable payments, denomination in fiat, etc.
+To monitor a specific addresses, configure `monitor.json` to include the address, network, and previous balance of each address. For a payment to be considered successful, that balance must increase by the amount specified by your Invoice (if none is specified, any positive change will trigger a successful payment). If there are multiple addresses for the same network, this will only check for the address with the lowest balance. (Ideally you only monitor addresses that haven't been used previously). This reduces the number of API calls, and also reduces address reuse. If you want to see which address will be checked (like to display a QR code to a user), use `AddressMonitor.getNextApis()`.
 
 Note that I do not own any of the addresses used in these commits. I just randomly selected addresses to use for testing.
