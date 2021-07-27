@@ -4,10 +4,9 @@
 # Author: redd
 #
 
-import json
-from BitcoinApi import BitcoinApi
-from CardanoApi import CardanoApi
+from Api import BitcoinApi, CardanoApi, EthereumApi
 from Invoice import Invoice
+import json
 
 class AddressMonitor:
 
@@ -22,9 +21,11 @@ class AddressMonitor:
         for a in d:
             if a['network'] == "bitcoin-mainnet":
                 self.addr_apis.append(BitcoinApi(a))
-            elif a['network'] == "cardano-mainnet":
-                # self.addr_apis.append(CardanoApi(a))
-                pass
+            elif a['network'] == "ethereum-mainnet":
+                self.addr_apis.append(EthereumApi(a))
+            # elif a['network'] == "cardano-mainnet":
+            #     # self.addr_apis.append(CardanoApi(a))
+            #     pass
             elif a['network'] == "cardano-testnet":
                 self.addr_apis.append(CardanoApi(a))
             else:
@@ -64,9 +65,9 @@ class AddressMonitor:
 
 if __name__ == '__main__':
 
-    invoice = Invoice(0.50)
-
-    fname = 'monitor.json'
+    fname = 'monitor.json' # contains json object with addresses to monitor
+    invoice = Invoice(0.50) # Create an invoice for 50 cents
     am = AddressMonitor(fname)
-    am.checkForPayment(invoice)
-
+    rx = am.checkForPayment(invoice) # check for payments
+    msg = "Payment received! :)" if rx else "Payment not received. :("
+    print(msg)

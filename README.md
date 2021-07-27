@@ -12,6 +12,12 @@ author: redd
 
 I use [mempool.space](https://mempool.space) for the Bitcoin API. No special configuration is necessary. Note that a payment will be considered valid as soon as the transaction hits the mempool. You do not need to wait for the transaction to be confirmed.
 
+### Ethereum
+
+* `ethereum-mainnet`
+
+I use [etherscan.io](https://etherscan.io) for the Ethereum API. You must obtain an API key after making an account. Once you have an account, go to the [My API Keys](https://etherscan.io/myapikey) page. Set your `ETHERSCAN_TOKEN` environment variable to your API key.
+
 ### Cardano
 
 * `cardano-mainnet`
